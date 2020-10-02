@@ -9,10 +9,30 @@
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body class='bg-light'>
+  <body class='bg-info'>
     <div class="container pt-5 pb-5">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a href="#" class="navbar-brand">Awesome Project Manager</a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <% if current_user.present? %>
+              <div class="navbar-nav ml-auto">
+                <%= link_to 'Sign out', destroy_user_session_path, method: :delete, class: 'nav-item nav-link' %>
+              </div>
+            <% else %>
+              <div class="navbar-nav ml-auto">
+                <%= link_to 'Sign in', new_user_session_path, class: 'nav-item nav-link' %>
+                <%= link_to 'Sign up', new_user_registration_path, class: 'nav-item nav-link' %>
+              </div>
+            <% end %>
+           
+        </div>
+    </nav>
+    <p class="notice text-center"><%= notice %></p>
+    <p class="alert text-center"><%= alert %></p>
       <%= yield %>
     </div>
   </body>

@@ -5,13 +5,24 @@ class ProjectsController < ApplicationController
   # GET /projects
   # GET /projects.json
   def index
-    @projects = current_user.projects
+    @user = User.find(current_user.id)
+    if @user && @user.is_admin
+      @projects = Project.all()
+    else
+      @projects = current_user.projects
+    end
+   
   end
 
   # GET /projects/1
   # GET /projects/1.json
   def show
-    @task = @project.tasks.build
+    if current_user.is_admin
+      @task = Task.where('project_id == ?', params[:id])
+      @project = Project.find(params[:id])
+    else
+      @task = @project.tasks.build
+    end
   end
 
   # GET /projects/new
@@ -66,7 +77,11 @@ class ProjectsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = current_user.projects.find(params[:id])
+      if current_user.is_admin
+        @projects = Project.find(params[:id])
+      else
+        @project = current_user.projects.find(params[:id])
+      end
     end
 
     # Only allow a list of trusted parameters through.

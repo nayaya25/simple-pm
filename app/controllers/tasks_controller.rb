@@ -44,18 +44,17 @@ class TasksController < ApplicationController
   # DELETE projects/1/tasks/1
   def destroy
     @task.destroy
-
     redirect_to @project
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
-      @project = current_user.projects.find(params[:project_id])
+      current_user && current_user.is_admin ?  @project = Project.find(params[:project_id]) : @project = current_user.projects.find(params[:project_id])
     end
 
     def set_task
-      @task = @project.tasks.find(params[:id])
+      current_user && current_user.is_admin ? @task = Task.find(params[:id]) : @task = @project.tasks.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.

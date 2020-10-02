@@ -6,6 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-sample = Array.new(10, { firstname: 'Jane', lastname: 'Doe', email: 'djohn@yahoo.com', password: 'secret', is_admin: true })
-User.create!(sample)
-p "Created #{sample.count} users"
+# sample = Array.new(10, { firstname: 'Jane', lastname: 'Doe', email: 'john@yahoo.com', password: 'secret', is_admin: true })
+User.create!({ firstname: 'Jane', lastname: 'Doe', email: 'janedoe@gmail.com', password: 'password', is_admin: false })
+p "Created #{User.all.count} users"

@@ -1,11 +1,10 @@
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= form_for @user do |f| %>
   <div class="container">
-  <%= render "users/shared/error_messages", resource: resource %>
     <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h5 class="card-title text-center">Sign Up</h5>
+            <h5 class="card-title text-center">New User</h5>
             <form class="form-signin">
               <div class="form-label-group">
                 <%= f.label :First_name %><br />
@@ -30,9 +29,12 @@
                 <%= f.label :password_confirmation %><br />
                 <%= f.password_field :password_confirmation, class: "form-control", autocomplete: "new-password" %>
               </div>
-              <%= f.submit "Sign up", class: "btn mt-3 btn-lg btn-primary btn-block text-uppercase"  %>
+              <div class="form-label-group">
+              <%= f.label :Admin? %><br />
+              <%= f.check_box :is_admin %>
+            </div>
+              <%= f.submit "Add", class: "btn mt-3 btn-lg btn-primary btn-block text-uppercase"  %>
               <hr class="my-4">
-              <%= render "users/shared/links" %>
             </form>
           </div>
         </div>

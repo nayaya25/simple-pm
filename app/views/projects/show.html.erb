@@ -8,32 +8,32 @@
         <%= link_to 'Destroy', @project, method: :delete, class: 'btn btn-dark', data: { confirm: 'Are you sure?' } %>
       </div>
     </h2>
+    <% if !current_user.is_admin  %> 
+      <div class="mb-4">
+        <h6>Add task</h6>
+        <%= form_for([@task.project, @task]) do |f| %>
+          <% if @task.errors.any? %>
+            <div id="error_explanation">
+              <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
 
-    <div class="mb-4">
-      <h6>Add task</h6>
-      <%= form_for([@task.project, @task]) do |f| %>
-        <% if @task.errors.any? %>
-          <div id="error_explanation">
-            <h2><%= pluralize(@task.errors.count, "error") %> prohibited this task from being saved:</h2>
+              <ul>
+              <% @task.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+              <% end %>
+              </ul>
+            </div>
+          <% end %>
 
-            <ul>
-            <% @task.errors.full_messages.each do |msg| %>
-              <li><%= msg %></li>
-            <% end %>
-            </ul>
+          <%= f.hidden_field :status, value: 'not-started' %>
+          <div class="input-group">
+            <%= f.text_field :name, class: 'form-control', placeholder: 'Enter task name...' %>
+            <div class="input-group-append">
+              <%= f.submit class: 'btn btn-primary' %>
+            </div>
           </div>
         <% end %>
-
-        <%= f.hidden_field :status, value: 'not-started' %>
-        <div class="input-group">
-          <%= f.text_field :name, class: 'form-control', placeholder: 'Enter task name...' %>
-          <div class="input-group-append">
-            <%= f.submit class: 'btn btn-primary' %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-
+      </div>
+    <% end %>
     <h4>Tasks</h4>
     <div data-controller="tasks">
       <ul id='tasks-list' data-action="drop->tasks#sort">

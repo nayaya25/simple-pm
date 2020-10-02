@@ -1,30 +1,29 @@
 class UsersController < ApplicationController
 
     before_action :set_user, only: [:show, :edit, :update] # probably want to keep using this
-    before_action 
+    before_action :authenticate_user!
     # GET /users
     # GET /users.json
     def index
-        @user = User.find(current_user.id)
-        if @user && @user.is_admin
+        if current_user && current_user.is_admin
             @users = User.all
-        else
-            flash[:notice] =  "Unauthorized"
-            redirect_to '/'
         end
-     
     end
   
     # # GET /users/1
     # # GET /users/1.json
     def show
-        @user = User.new
+        @user = User.find(params[:id])
     end
   
     # GET /users/1/edit
-    def edit
-        @user = User.find(params[:id])
+    def new
+      @user = User.new
     end
+
+    def edit
+      @user = User.find(params[:id])
+  end
   
     # # PATCH/PUT /users/1
     # # PATCH/PUT /users/1.json
@@ -63,7 +62,7 @@ class UsersController < ApplicationController
   
       # Never trust parameters from the scary internet, only allow the white list through.
       def user_params
-        params.require(:user).permit(:firstname, :lastname, :email, :password)
+        params.require(:user).permit(:firstname, :lastname, :email, :password, :is_admin)
       end
   
   end
